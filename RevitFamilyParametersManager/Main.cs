@@ -22,9 +22,12 @@ namespace RevitFamilyParametersManager
             var uidoc = uiapp.ActiveUIDocument;
             var doc = uidoc.Document;
 
-            var sharedParameterService = new SharedParameterService();
+            if (!doc.IsFamilyDocument)
+                return Result.Failed;
+
+            var sharedParameterService = new SharedParameterManagerService();
             var viewModel = new MainViewModel(sharedParameterService);
-            var form = new MainView(viewModel);
+            var form = new MainView(viewModel, commandData);
 
             form.ShowDialog();
             return Result.Succeeded;

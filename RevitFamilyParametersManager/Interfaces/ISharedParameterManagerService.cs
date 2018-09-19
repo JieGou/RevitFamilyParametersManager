@@ -1,9 +1,9 @@
 ﻿using Autodesk.Revit.UI;
 using RevitFamilyParametersManager.Models;
 
-namespace RevitFamilyParametersManager.Services
+namespace RevitFamilyParametersManager.Interfaces
 {
-    public interface ISharedParameterService
+    public interface ISharedParameterManagerService
     {
         SharedParameterManager GetSharedParameterManager(ExternalCommandData commandData);
     }

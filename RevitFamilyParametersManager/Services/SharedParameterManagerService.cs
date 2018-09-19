@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using RevitFamilyParametersManager.Models;
 using Autodesk.Revit.UI;
+using RevitFamilyParametersManager.Interfaces;
 
 namespace RevitFamilyParametersManager.Services
 {
-    public class SharedParameterService : ISharedParameterService
+    public class SharedParameterManagerService : ISharedParameterManagerService
     {
         public SharedParameterManager GetSharedParameterManager(ExternalCommandData commandData)
         {

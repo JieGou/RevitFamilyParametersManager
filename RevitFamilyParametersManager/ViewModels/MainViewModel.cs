@@ -1,24 +1,33 @@
-﻿using RevitFamilyParametersManager.Services;
+﻿using Autodesk.Revit.UI;
+using RevitFamilyParametersManager.Models;
+using RevitFamilyParametersManager.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RevitFamilyParametersManager.Interfaces;
+using System.Collections.ObjectModel;
 
 namespace RevitFamilyParametersManager.ViewModels
 {
     public class MainViewModel
     {
-        private ISharedParameterService _sharedParameterService;
+        private ISharedParameterManagerService _sharedParameterService;
+        private IRevitFamilyParameterService _revitFamilyParameterService;
 
-        public MainViewModel(ISharedParameterService sharedParameterService)
+        public ObservableCollection<RevitFamilyParameter> RevitFamilyParameterList { get; set; }
+
+        public MainViewModel(ISharedParameterManagerService sharedParameterService)
         {
             _sharedParameterService = sharedParameterService;
+            RevitFamilyParameterList = new ObservableCollection<RevitFamilyParameter>();
         }
 
-        public void Load()
+        public void Load(ExternalCommandData commandData)
         {
-            var sharedParameterManager = _sharedParameterService.GetSharedParameterManager();
+            var sharedParameterManager = _sharedParameterService.GetSharedParameterManager(commandData);
+            RevitFamilyParameterList = _revitFamilyParameterService.GetParameters(commandData);
         }
     }
 }

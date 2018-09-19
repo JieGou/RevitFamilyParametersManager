@@ -22,11 +22,11 @@ namespace RevitFamilyParametersManager.Views
     /// </summary>
     public partial class MainView : Window
     {
-        public MainView(MainViewModel viewModel)
+        public MainView(MainViewModel viewModel, ExternalCommandData commandData)
         {
             InitializeComponent();
             DataContext = viewModel;
-            viewModel.Load();
+            viewModel.Load(commandData);
         }
     }
 }
