@@ -11,7 +11,8 @@
         <DataGrid ItemsSource="{Binding RevitFamilyParameterList}"
                   RowBackground="LightGray"
                   AlternatingRowBackground="White"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False"
+                  SelectionMode="Extended">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" />
                 <DataGridTextColumn Header="Тип данных" Binding="{Binding Path=StorageType, Mode=OneWay}"  />
