@@ -10,15 +10,15 @@
     <Grid>
         <DataGrid ItemsSource="{Binding RevitFamilyParameterList}"
                   RowBackground="LightGray"
-                  AlternatingRowBackground="White">
+                  AlternatingRowBackground="White"
+                  AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" />
-                <DataGridCheckBoxColumn Header="Экземпляр?" Binding="{Binding Path=IsInstance}"  />
-                <DataGridCheckBoxColumn Header="Общий параметр?" Binding="{Binding Path=IsShared}"  />
-                <DataGridTextColumn Header="Значение Double" Binding="{Binding Path=DoubleValue}"  />
-                <DataGridTextColumn Header="Значение String" Binding="{Binding Path=StringValue}"  />
-                <DataGridTextColumn Header="Значение Int" Binding="{Binding Path=IntValue}" />
+                <DataGridTextColumn Header="Тип данных" Binding="{Binding Path=StorageType, Mode=OneWay}"  />
+                <DataGridTextColumn Header="Значение всех типов" Binding="{Binding Path=Value}" />
                 <DataGridTextColumn Header="Формула" Binding="{Binding Path=Formula}" />
+                <DataGridCheckBoxColumn Header="Экземпляр?" Binding="{Binding Path=IsInstance}"  />
+                <DataGridCheckBoxColumn Header="Общий параметр?" Binding="{Binding Path=IsShared, Mode=OneWay}"  />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

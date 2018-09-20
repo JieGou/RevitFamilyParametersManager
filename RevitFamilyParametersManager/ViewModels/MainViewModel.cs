@@ -21,6 +21,7 @@ namespace RevitFamilyParametersManager.ViewModels
         public MainViewModel(ISharedParameterManagerService sharedParameterService)
         {
             _sharedParameterService = sharedParameterService;
+            _revitFamilyParameterService = new RevitFamilyParameterService();
             RevitFamilyParameterList = new ObservableCollection<RevitFamilyParameter>();
         }
 

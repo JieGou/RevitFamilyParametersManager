@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autodesk.Revit.DB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,11 @@ namespace RevitFamilyParametersManager.Interfaces
     public interface IParameter
     {
         string Name { get; set; }
-        string StringValue { get; set; }
-        double DoubleValue { get; set; }
-        int IntValue { get; set; }
+        string Value { get; set; }
         bool IsInstance { get; set; }
         bool IsShared { get; }
         string Formula { get; set; }
+        StorageType StorageType { get; set; }
+
     }
 }

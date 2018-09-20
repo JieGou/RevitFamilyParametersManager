@@ -21,8 +21,8 @@ namespace RevitFamilyParametersManager.Services
             var familyParams = familyDoc.FamilyManager.GetParameters();
             foreach (var familyParam in familyParams)
             {
-                revitFamParams.Add(new RevitFamilyParameter(familyParam.Definition.Name, familyParam.IsInstance,
-                                                            familyParam.IsShared, familyParam.Formula));
+                revitFamParams.Add(new RevitFamilyParameter(
+                                        familyParam, familyDoc.FamilyManager, familyDoc));
 
             }
 
