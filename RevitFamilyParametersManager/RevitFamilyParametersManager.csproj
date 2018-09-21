@@ -62,6 +62,7 @@
     <Compile Include="Services\RevitFamilyParameterService.cs" />
     <Compile Include="Services\SharedParameterManagerService.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

@@ -11,12 +11,26 @@ using System.Collections.ObjectModel;
 
 namespace RevitFamilyParametersManager.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : ViewModelBase
     {
         private ISharedParameterManagerService _sharedParameterService;
         private IRevitFamilyParameterService _revitFamilyParameterService;
 
         public ObservableCollection<RevitFamilyParameter> RevitFamilyParameterList { get; set; }
+
+        //private RevitFamilyParameter _selectedRevitFamilyParameter;
+        //public RevitFamilyParameter SelectedRevitFamilyParameter
+        //{
+        //    get
+        //    {
+        //        return _selectedRevitFamilyParameter;
+        //    }
+        //    set
+        //    {
+        //        _selectedRevitFamilyParameter = value;
+        //        OnPropertyChanged();
+        //    }
+        //}
 
         public MainViewModel(ISharedParameterManagerService sharedParameterService)
         {

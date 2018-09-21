@@ -9,16 +9,17 @@
              Height="300">
     <Grid>
         <DataGrid ItemsSource="{Binding RevitFamilyParameterList}"
+                  Name="dataGridParameters"
                   RowBackground="LightGray"
                   AlternatingRowBackground="White"
                   AutoGenerateColumns="False"
                   SelectionMode="Extended">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name}" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Тип данных" Binding="{Binding Path=StorageType, Mode=OneWay}"  />
-                <DataGridTextColumn Header="Значение всех типов" Binding="{Binding Path=Value}" />
-                <DataGridTextColumn Header="Формула" Binding="{Binding Path=Formula}" />
-                <DataGridCheckBoxColumn Header="Экземпляр?" Binding="{Binding Path=IsInstance}"  />
+                <DataGridTextColumn Header="Значение всех типов" Binding="{Binding Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTextColumn Header="Формула" Binding="{Binding Path=Formula, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridCheckBoxColumn Header="Экземпляр?" Binding="{Binding Path=IsInstance, UpdateSourceTrigger=PropertyChanged}"  />
                 <DataGridCheckBoxColumn Header="Общий параметр?" Binding="{Binding Path=IsShared, Mode=OneWay}"  />
             </DataGrid.Columns>
         </DataGrid>

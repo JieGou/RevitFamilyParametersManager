@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using RevitFamilyParametersManager.ViewModels;
 
 namespace RevitFamilyParametersManager.Models
 {
-    public class RevitFamilyParameter : IParameter
+    public class RevitFamilyParameter : ViewModelBase, IParameter
     {
         private string _name;
         public string Name
@@ -22,32 +23,15 @@ namespace RevitFamilyParametersManager.Models
             }
             set
             {
+                if (_name == value)
+                    return;
                 _name = value;
-
-                if (Document == null)
-                    return;
-
-                if (this.Model.IsBuiltInParam())
-                {
-                    return;
-                }
-
-                
-
-                if(!this.Model.IsShared)
-                {
-                    using (var t = new Autodesk.Revit.DB.Transaction(Document, "Set parameters to all types"))
-                    {
-                        t.Start();
-                        this.FamilyManager.RenameParameter(this.Model, _name);
-                        t.Commit();
-                    }
-                }
-                
+                this.Model.SetParameterName(Document, _name);
+                OnPropertyChanged();
             }
         }
 
-        private string _value;
+        private string _value = string.Empty;
         public string Value
         {
             get
@@ -56,45 +40,11 @@ namespace RevitFamilyParametersManager.Models
             }
             set
             {
-                if (Document == null || this.Model.IsReadOnly || !this.Model.UserModifiable)
+                if (_value == value)
                     return;
                 _value = value;
-                foreach (FamilyType famType in this.FamilyManager.Types)
-                {
-                    //Устанавливаем текущий тип для изменения
-                    if (this.StorageType == StorageType.Double)
-                    {
-
-                        using (var t = new Autodesk.Revit.DB.Transaction(Document, "Set parameters to all types"))
-                        {
-                            t.Start();
-                            this.FamilyManager.CurrentType = famType;
-                            this.FamilyManager.Set(this.Model, NumberUtils.MillimetersToFeet(NumberUtils.ParseStringToDouble(_value)));
-                            t.Commit();
-                        }
-                    }
-                    else if (this.StorageType == StorageType.Integer)
-                    {
-                        using (var t = new Autodesk.Revit.DB.Transaction(Document, "Set parameters to all types"))
-                        {
-                            t.Start();
-                            this.FamilyManager.CurrentType = famType;
-                            this.FamilyManager.Set(this.Model, NumberUtils.ParseStringToInt(_value));
-                            t.Commit();
-                        }
-                    }
-                    else if (this.StorageType == StorageType.String)
-                    {
-                        using (var t = new Autodesk.Revit.DB.Transaction(Document, "Set parameters to all types"))
-                        {
-                            t.Start();
-                            this.FamilyManager.CurrentType = famType;
-                            this.FamilyManager.Set(this.Model, _value);
-                            t.Commit();
-                        }
-                    }
-
-                }
+                this.Model.SetValue(Document, _value);
+                OnPropertyChanged();
             }
         }
 
@@ -107,25 +57,31 @@ namespace RevitFamilyParametersManager.Models
             }
             set
             {
-                if (Document == null)
+                if (_isInstance == value)
                     return;
-                if (this.Model.IsBuiltInParam())
-                    return;
-
                 _isInstance = value;
-                using (var t = new Autodesk.Revit.DB.Transaction(Document, "Set parameters to all types"))
-                {
-                    t.Start();
-                    if (IsInstance == true)
-                        this.FamilyManager.MakeInstance(this.Model);
-                    else
-                        this.FamilyManager.MakeType(this.Model);
-                    t.Commit();
-                }
+                this.Model.SwitchTypeOrInstance(Document);
+                OnPropertyChanged();
             }
         }
         public bool IsShared { get; }
-        public string Formula { get; set; }
+
+        private string _formula;
+        public string Formula
+        {
+            get
+            {
+                return _formula;
+            }
+            set
+            {
+                if (_formula == value)
+                    return;
+                _formula = value;
+                this.Model.SetParameterFormula(Document, _formula);
+                OnPropertyChanged();
+            }
+        }
         public StorageType StorageType { get; set; }
         public FamilyParameter Model { get; set; }
         public FamilyManager FamilyManager { get; set; }
@@ -133,8 +89,6 @@ namespace RevitFamilyParametersManager.Models
 
         public RevitFamilyParameter(FamilyParameter familyParam, FamilyManager familyManager, Document doc)
         {
-            //revitFamParams.Add(new RevitFamilyParameter(familyParam.Definition.Name, familyParam.IsInstance,
-            //                                                familyParam.IsShared, familyParam.Formula, familyParam.DisplayUnitType));
             Document = doc;
             Model = familyParam;
             FamilyManager = familyManager;
@@ -143,8 +97,6 @@ namespace RevitFamilyParametersManager.Models
             IsShared = familyParam.IsShared;
             Formula = familyParam.Formula;
             StorageType = familyParam.StorageType;
-
-
         }
     }
 }
